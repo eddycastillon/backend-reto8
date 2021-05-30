@@ -1,6 +1,10 @@
-from Helpers.menu import Menu
-from Controllers.Profesor import ProfesorController
-from Controllers.Alumno import AlumnoController
+from app.helpers.menu import Menu
+from app.controllers.prestamo import PrestamoController
+from app.controllers.alumno import AlumnoController
+from app.controllers.libro import LibroController
+from app.controllers.devolucion import DevolucionController
+
+
 
 def menu():
     try:
@@ -9,45 +13,45 @@ def menu():
             Sistema de colegio
         ==========================
         ''')
-        menu_principal = ["Profesores", "Alumnos", "Cursos", "Periodo Escolar", "Salones", \
-        "Malla Curricular", "Registrar Notas", "Salir"]
+        menu_principal = ["Prestamo", "Devolucion", "Alumno", "Libro", "Editorial", "Autor", \
+        "Configuracion", "Salir"]
         respuesta = Menu(menu_principal).show()
 
         if respuesta == 1:
-            profesor = ProfesorController()
-            profesor.menu()
-            if profesor.salir:
+            prestamo = PrestamoController()
+            prestamo.menu()
+            if prestamo.salir:
                 menu()
         elif respuesta == 2:
-            alumno = AlumnoController()
+            alumno = DevolucionController()
             alumno.menu()
             if alumno.salir:
                 app()
         elif respuesta == 3:
-            curso = CursoController()
+            curso = AlumnoController()
             curso.menu()
             if curso.salir:
                 app()
         elif respuesta == 4:
-            periodo = PeriodoController()
+            periodo = LibroController()
             periodo.menu()
             if periodo.salir:
                 app()
         elif respuesta == 5:
-            salon = SalonController()
+            salon = EditorialController()
             salon.menu()
             if salon.salir:
                 app()
         elif respuesta == 6:
-            malla = MallaController()
+            malla = AutorController()
             malla.menu()
             if malla.salir:
                 app()
         elif respuesta == 7:
-            nota = NotasController()
+            nota = configuracionController()
             nota.menu()
             if nota.salir:
-                app()
+                menu()
 
         print("\n Gracias por utilizar el sistema \n")
     except KeyboardInterrupt:
