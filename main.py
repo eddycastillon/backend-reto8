@@ -2,7 +2,6 @@ from app.helpers.menu import Menu
 from app.controllers.prestamo import PrestamoController
 from app.controllers.alumno import AlumnoController
 from app.controllers.libro import LibroController
-from app.controllers.devolucion import DevolucionController
 
 
 
@@ -23,10 +22,10 @@ def menu():
             if prestamo.salir:
                 menu()
         elif respuesta == 2:
-            alumno = DevolucionController()
-            alumno.menu()
-            if alumno.salir:
-                app()
+            devolucion = PrestamoController()
+            devolucion.menu()
+            if devolucion.salir:
+                menu()
         elif respuesta == 3:
             curso = AlumnoController()
             curso.menu()

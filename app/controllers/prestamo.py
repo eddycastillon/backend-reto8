@@ -2,6 +2,7 @@ from app.controllers.libro import LibroController
 from app.models.prestamo import Prestamo
 from app.helpers.menu import Menu
 from app.helpers.helper import input_data, print_table, question
+import datetime
 
 class PrestamoController:
     def __init__(self):
@@ -16,7 +17,7 @@ class PrestamoController:
                     Prestamos
                 ==================
                 ''')
-                lista_menu = ["Listar", "Buscar", "Crear", "Salir"]
+                lista_menu = ["Listar", "Buscar", "Crear", "Devolver", "Salir"]
                 respuesta = Menu(lista_menu).show()
 
                 if respuesta == 1:
@@ -25,6 +26,8 @@ class PrestamoController:
                     self.search_prestamo()
                 elif respuesta == 3:
                     self.insert_prestamo()
+                elif respuesta == 4:
+                    self.devolver_prestamo()
                 else:
                     self.salir = True
                     break
@@ -39,7 +42,7 @@ class PrestamoController:
             ==========================
             ''')
             prestamos = self.prestamo.get_prestamos('prestamo_id')
-            print(print_table(prestamos, ['ID', 'Fecha_inicio', 'Fecha_fin', 'Alumno_id', 'Libro_id']))
+            print(print_table(prestamos, ['ID', 'Fecha_inicio', 'Fecha_fin', 'Alumno_id', 'Libro_id', 'Fecha_devolucion', 'Estado']))
             input('\nPresiona una tecla para continuar...')
         except Exception as e:
             print(f'{str(e)}')
@@ -74,14 +77,14 @@ class PrestamoController:
         libro_disponible, libro_id = libro.prestar_libro()
     
         if libro_disponible:
-            fecha_inicio = input_data('Ingrese fecha de inicio >> ')
             fecha_fin = input_data('Ingrese fecha de fin >> ')
             alumno_id = input_data('Ingrese alumno_id >> ', 'int')
             self.prestamo.insert_prestamo({
-                'fecha_inicio': fecha_inicio,
-                'fecha_fin': fecha_fin,
+                'fecha_inicio': str(datetime.date.today()),
+                'fecha_fin': str(datetime.date.today() + datetime.timedelta(int(fecha_fin))),
                 'alumno_id': alumno_id,
-                'libro_id': libro_id
+                'libro_id': libro_id,
+                'estado': True
             })
             print('''
             ================================
@@ -92,17 +95,13 @@ class PrestamoController:
         else:
             print("libro no disponible")
 
-
     def update_prestamo(self, prestamo_id):
-        nombre = input_data('Ingrese el nuevo nombre del prestamo >> ')
-        edad = input_data('Ingrese la nueva edad del prestamo >> ', 'int')
-        correo = input_data('Ingrese el nuevo correo del prestamo >> ')
         self.prestamo.update_prestamo({
             'prestamo_id': prestamo_id
         }, {
-            'nombres': nombre,
-            'edad': edad,
-            'correo': correo
+            'fecha_devolucion': datetime.datetime.now(),
+            'estado': False
+
         })
         print('''
         ============================
@@ -111,6 +110,7 @@ class PrestamoController:
         ''')
 
     def delete_prestamo(self, prestamo_id):
+        self.all_prestamos()
         self.prestamo.delete_prestamo({
             'prestamo_id': prestamo_id
         })
@@ -120,3 +120,18 @@ class PrestamoController:
         =========================
         ''')
 
+    def devolver_prestamo(self):
+            self.all_prestamos()
+            prestamo_id = input_data('Ingrese devolucion_id >> ', 'int')
+            self.prestamo.update_prestamo({
+                'prestamo_id': prestamo_id
+            }, {
+                'fecha_devolucion':  str(datetime.date.today()),
+                'estado': False
+
+            })
+            print('''
+            ============================
+                Libro devuelto
+            ============================
+            ''')
