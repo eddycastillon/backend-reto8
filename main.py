@@ -12,7 +12,7 @@ def menu():
             Sistema de colegio
         ==========================
         ''')
-        menu_principal = ["Prestamo", "Devolucion", "Alumno", "Libro", "Editorial", "Autor", \
+        menu_principal = ["Prestamo", "Alumno", "Libro", "Editorial", "Autor", \
         "Configuracion", "Salir"]
         respuesta = Menu(menu_principal).show()
 
@@ -22,27 +22,27 @@ def menu():
             if prestamo.salir:
                 menu()
         elif respuesta == 2:
-            devolucion = PrestamoController()
-            devolucion.menu()
-            if devolucion.salir:
+            alumno = AlumnoController()
+            alumno.menu()
+            if alumno.salir:
                 menu()
         elif respuesta == 3:
-            curso = AlumnoController()
+            curso = LibroController()
             curso.menu()
             if curso.salir:
                 app()
         elif respuesta == 4:
-            periodo = LibroController()
+            periodo = EditorialController()
             periodo.menu()
             if periodo.salir:
                 app()
         elif respuesta == 5:
-            salon = EditorialController()
+            salon = AutorController()
             salon.menu()
             if salon.salir:
                 app()
         elif respuesta == 6:
-            malla = AutorController()
+            malla = configuracionController()
             malla.menu()
             if malla.salir:
                 app()
