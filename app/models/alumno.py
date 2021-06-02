@@ -1,7 +1,7 @@
 from app.config.connection import Connection
 class Alumno:
     def __init__(self):
-        self.model = Connection('estudiantes')
+        self.model = Connection('alumnos')
 
     def get_alumnos(self, order):
         return self.model.get_all(order)

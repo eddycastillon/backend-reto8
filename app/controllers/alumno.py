@@ -38,7 +38,7 @@ class AlumnoController:
             ==========================
             ''')
             alumnos = self.alumno.get_alumnos('alumno_id')
-            print(print_table(alumnos, ['ID', 'Nombre', 'Edad', 'Correo']))
+            print(print_table(alumnos, ['ID', 'Nombre', 'Apellido_paterno', 'Apellido_materno', 'documento_identidad']))
             input('\nPresiona una tecla para continuar...')
         except Exception as e:
             print(f'{str(e)}')
